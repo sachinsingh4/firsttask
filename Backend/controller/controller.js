@@ -64,3 +64,36 @@ exports.search = (req, res) => {
     return res.json(data);
   });
 };
+
+//Delete from table...
+
+/*Input:{
+  id:
+}*/
+
+exports.delete = (req, res) => {
+  const id = req.body.id;
+  const sql = "DELETE from `tester` WHERE `id`=?";
+  db.query(sql, [id], (err, data) => {
+    if (err) {
+      return res.json(err);
+    } else {
+      return res.json(data);
+    }
+  });
+};
+
+//Update table...
+
+exports.update = (req, res) => {
+  const id = req.body.id;
+  const name = req.body.name;
+  const sql = "UPDATE `tester` SET name = ? WHERE `id`=?";
+  db.query(sql, [name, id], (err, data) => {
+    if (err) {
+      return res.json(err);
+    } else {
+      return res.json(data);
+    }
+  });
+};

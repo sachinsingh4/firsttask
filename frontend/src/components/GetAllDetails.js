@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import "./GetAll.css";
+import "../styles/GetAll.css";
 export default function GetAllDetails() {
   const [status, setstatus] = useState(false);
 

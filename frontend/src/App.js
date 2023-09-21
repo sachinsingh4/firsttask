@@ -1,8 +1,10 @@
-import "./App.css";
-import GetAllDetails from "./GetAllDetails";
-import Insert from "./Insert";
+import "../src/styles/App.css";
+import GetAllDetails from "../src/components/GetAllDetails";
+import Insert from "../src/components/Insert";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Search from "./Search";
+import Search from "../src/components/Search";
+import Delete from "../src/components/Delete";
+import Update from "./components/Update";
 function App() {
   return (
     <BrowserRouter>
@@ -11,6 +13,9 @@ function App() {
         <Route path="/" element={<Insert />}></Route>
         <Route path="/search" element={<Search />}></Route>
         <Route path="/getAll" element={<GetAllDetails />}></Route>
+        <Route path="/delete" element={<Delete />}></Route>
+        <Route path="/update" element={<Update />}></Route>
+        <Route />
       </Routes>
     </BrowserRouter>
   );

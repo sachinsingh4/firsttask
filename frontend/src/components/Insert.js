@@ -33,7 +33,7 @@ export default function Insert() {
   };
   return (
     <div className="d-flex justify-content-center align-items-center bg-primary vh-100">
-      <div className="bg-white p-3 rounded w-25">
+      <div className="bg-white p-3 rounded">
         <h1>
           <center>Data Insert</center>
         </h1>
@@ -75,6 +75,20 @@ export default function Insert() {
               className="btn btn-default border w-100 rounded-10"
             >
               Search Record
+            </Link>
+            <Link
+              to="/delete"
+              type="submit"
+              className="btn btn-default border w-100 rounded-10"
+            >
+              Delete Record
+            </Link>
+            <Link
+              to="/update"
+              type="submit"
+              className="btn btn-default border w-100 rounded-10"
+            >
+              update Record
             </Link>
           </div>
         </form>

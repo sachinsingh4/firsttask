@@ -11,6 +11,13 @@ module.exports = (app) => {
   //creating router for search
   router.post("/search", controller.search);
 
+  //creating router for update...
+
+  router.put("/update", controller.update);
+
+  //creating router for delete...
+  router.delete("/delete", controller.delete);
+
   //calling main api here...
   app.use("/", router);
 };
