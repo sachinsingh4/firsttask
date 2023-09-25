@@ -76,7 +76,7 @@ export default function Insert() {
             >
               Search Record
             </Link>
-            <Link
+            {/* <Link
               to="/delete"
               type="submit"
               className="btn btn-default border w-100 rounded-10"
@@ -89,7 +89,7 @@ export default function Insert() {
               className="btn btn-default border w-100 rounded-10"
             >
               update Record
-            </Link>
+            </Link> */}
           </div>
         </form>
       </div>

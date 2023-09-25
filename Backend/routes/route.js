@@ -2,10 +2,10 @@ module.exports = (app) => {
   const router = require("express").Router();
   const controller = require("../controller/controller");
 
-  //creating router for getalldata
+  //creating router for getalldata...
   router.post("/getAll", controller.getAll);
 
-  //creating router for insertion
+  //creating router for insertion...
   router.post("/", controller.insert);
 
   //creating router for search
@@ -13,10 +13,10 @@ module.exports = (app) => {
 
   //creating router for update...
 
-  router.put("/update", controller.update);
+  router.post("/update", controller.update);
 
   //creating router for delete...
-  router.delete("/delete", controller.delete);
+  router.post("/delete", controller.delete);
 
   //calling main api here...
   app.use("/", router);

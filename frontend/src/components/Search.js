@@ -24,9 +24,9 @@ export default function Search() {
   };
 
   return (
-    <div className="d-flex justify-content-center align-items-center bg-primary vh-100">
+    <div className="d-flex justify-content-center align-items-center bg-primary">
       {!status ? (
-        <div className="bg-white p-3 rounded w-25">
+        <div className="bg-white p-3 rounded m-5">
           <h1>
             <center>Search Data</center>
           </h1>
@@ -51,13 +51,16 @@ export default function Search() {
                 onChange={handleInput}
               ></input>
             </div>
-            <button type="submit" className="btn btn-success w-100">
+            <button
+              className="btn btn-success w-100"
+              onSubmit={() => handleSubmit()}
+            >
               Search Data
             </button>
           </form>
         </div>
       ) : (
-        <div className="bg-white p-3 rounded w-25">
+        <div className="bg-white p-3 rounded w-25 m-5">
           <table className="hello">
             <tr className="hello">
               <th className="hello">Name of Employee</th>

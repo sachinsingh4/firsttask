@@ -1,28 +1,35 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-export default function Search() {
+export default function Update({ name, cityname }) {
   const [value, setvalue] = useState({
-    id: "",
     name: "",
+    cityname: "",
+    changename: "",
+    changecityname: "",
   });
   const handleInput = (event) => {
-    setvalue((prev) => ({
-      ...prev,
+    setvalue((prevState) => ({
+      ...prevState,
       [event.target.name]: [event.target.value],
+      changename: name,
+      changecityname: cityname,
     }));
   };
+
+  const navigate = useNavigate();
   const handleSubmit = (event) => {
+    console.log(value);
     event.preventDefault();
     axios
       .post("http://localhost:8081/update", value)
-      .then((res) => alert("successfully Updated"))
+      .then((res) => navigate("/"))
       .catch((err) => console.log(err));
   };
 
   return (
-    <div className="d-flex justify-content-center align-items-center bg-primary vh-100">
-      <div className="bg-white p-3 rounded w-25">
+    <div className="d-flex justify-content-center align-items-center bg-primary ">
+      <div className="bg-white p-3 rounded m-5">
         <h1>
           <center>Update Data</center>
         </h1>
@@ -31,9 +38,9 @@ export default function Search() {
             <label htmlFor="employeeName">Enter Id:</label>
             <input
               type="text"
-              placeholder="Enter id"
+              placeholder="Enter employee name"
               className="form-control rounded-0"
-              id="id"
+              name="name"
               onChange={handleInput}
             ></input>
           </div>
@@ -42,22 +49,19 @@ export default function Search() {
             <label htmlFor="employeeName">Enter Id:</label>
             <input
               type="text"
-              placeholder="Enter name"
+              placeholder="Enter cityname"
               className="form-control rounded-0"
-              name="name"
+              name="cityname"
               onChange={handleInput}
             ></input>
           </div>
-          <button
-            type="submit"
-            className="btn btn-success border w-50 rounded-10 m-10"
-          >
+          <button type="submit" className="btn btn-success border  rounded-10">
             Update Data
           </button>
           <Link
             to="/"
             type="submit"
-            className="btn btn-default border w-50 rounded-10 m-10"
+            className="btn btn-default border  rounded-10 "
           >
             Back
           </Link>
