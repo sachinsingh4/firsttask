@@ -1,29 +1,44 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-export default function Update({ name, cityname }) {
+export default function Update({ nameValue, citynameValue }) {
   const [value, setvalue] = useState({
     name: "",
     cityname: "",
     changename: "",
     changecityname: "",
   });
+  useEffect(() => {
+    setvalue({
+      name: nameValue,
+      cityname: citynameValue,
+    });
+  }, [nameValue, citynameValue]);
+
+  //Handle Input box data
   const handleInput = (event) => {
-    setvalue((prevState) => ({
-      ...prevState,
-      [event.target.name]: [event.target.value],
-      changename: name,
-      changecityname: cityname,
-    }));
+    setvalue({
+      ...value,
+      [event.target.name]: event.target.value,
+      changename: nameValue,
+      changecityname: citynameValue,
+    });
   };
 
-  const navigate = useNavigate();
+  const navigate = useNavigate(); //Use to navigate page
+
+  //Call After clicking button
   const handleSubmit = (event) => {
-    console.log(value);
     event.preventDefault();
     axios
       .post("http://localhost:8081/update", value)
-      .then((res) => navigate("/"))
+      .then((res) => {
+        if (res.data === "same data") {
+          alert("same data already present in the database");
+        } else {
+          navigate("/");
+        }
+      })
       .catch((err) => console.log(err));
   };
 
@@ -35,23 +50,25 @@ export default function Update({ name, cityname }) {
         </h1>
         <form action="" onSubmit={handleSubmit}>
           <div className="mb-3">
-            <label htmlFor="employeeName">Enter Id:</label>
+            <label htmlFor="">Enter Name:</label>
             <input
               type="text"
               placeholder="Enter employee name"
               className="form-control rounded-0"
               name="name"
+              value={value.name}
               onChange={handleInput}
             ></input>
           </div>
 
           <div className="mb-3">
-            <label htmlFor="employeeName">Enter Id:</label>
+            <label htmlFor="">Enter cityname:</label>
             <input
               type="text"
               placeholder="Enter cityname"
               className="form-control rounded-0"
               name="cityname"
+              value={value.cityname}
               onChange={handleInput}
             ></input>
           </div>
@@ -63,7 +80,7 @@ export default function Update({ name, cityname }) {
             type="submit"
             className="btn btn-default border  rounded-10 "
           >
-            Back
+            Home
           </Link>
         </form>
       </div>

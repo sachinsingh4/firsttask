@@ -92,7 +92,6 @@ exports.delete = (req, res) => {
 };
 
 //Update table...
-
 exports.update = (req, res) => {
   let name = req.body.name;
   let cityname = req.body.cityname;
@@ -105,12 +104,30 @@ exports.update = (req, res) => {
     cityname = changecityname;
   }
   const sql =
-    "UPDATE `tester` SET `name` = ?,`cityname`= ? WHERE `name`=? AND `cityname`= ?";
-  db.query(sql, [name, cityname, changename, changecityname], (err, data) => {
+    "SELECT * FROM `tester` WHERE `name` LIKE '%" +
+    name +
+    "%' AND `cityname` LIKE '%" +
+    cityname +
+    "%'";
+
+  db.query(sql, [name, cityname], (err, data) => {
     if (err) {
-      return res.json(err);
+    } else if (data.length == 0) {
+      const sql =
+        "UPDATE `tester` SET `name` = ?,`cityname`= ? WHERE `name`=? AND `cityname`= ?";
+      db.query(
+        sql,
+        [name, cityname, changename, changecityname],
+        (err, data) => {
+          if (err) {
+            return res.json(err);
+          } else {
+            return res.json(data);
+          }
+        }
+      );
     } else {
-      return res.json(data);
+      res.send("same data");
     }
   });
 };

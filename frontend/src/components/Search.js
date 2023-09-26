@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 export default function Search() {
+  const navigate = useNavigate();
   const [status, setstatus] = useState(false);
   const [studentList, setStudentList] = useState([]);
   const [value, setvalue] = useState({
@@ -19,7 +20,13 @@ export default function Search() {
     setstatus(!status);
     axios
       .post("http://localhost:8081/search", value)
-      .then((res) => setStudentList(res.data))
+      .then((res) => {
+        if (res.data.length === 0) {
+          alert("No data is found with this Search");
+        } else {
+          setStudentList(res.data);
+        }
+      })
       .catch((err) => console.log(err));
   };
 
@@ -60,7 +67,7 @@ export default function Search() {
           </form>
         </div>
       ) : (
-        <div className="bg-white p-3 rounded w-25 m-5">
+        <div className="bg-white p-3 rounded h-80 m-5">
           <table className="hello">
             <tr className="hello">
               <th className="hello">Name of Employee</th>
@@ -76,13 +83,22 @@ export default function Search() {
               );
             })}
           </table>
-          <Link
-            to="/"
-            type="submit"
-            className="btn btn-success border w-50 rounded-10 m-10"
-          >
-            Back
-          </Link>
+          <div className="d-flex">
+            <Link
+              to="/"
+              type="submit"
+              className="btn btn-success border  rounded-10 m-10"
+            >
+              Home
+            </Link>
+            <Link
+              onClick={() => setstatus(!status)}
+              type="submit"
+              className="btn btn-success border rounded-10 m-10"
+            >
+              Search Again
+            </Link>
+          </div>
         </div>
       )}
     </div>

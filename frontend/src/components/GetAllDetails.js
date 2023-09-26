@@ -60,6 +60,7 @@ export default function GetAllDetails() {
             <tr className="hello">
               <th className="hello">Name of Employee</th>
               <th className="hello">City of Employee</th>
+              <th className="hello">Action</th>
             </tr>
 
             {employeelist.map((val, index) => {
@@ -100,8 +101,8 @@ export default function GetAllDetails() {
         {show && (
           <Update
             show={show}
-            name={name}
-            cityname={cityname}
+            nameValue={name}
+            citynameValue={cityname}
             setcname={setcname}
           />
         )}
