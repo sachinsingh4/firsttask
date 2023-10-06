@@ -72,10 +72,9 @@ exports.search = (req, res) => {
 }*/
 
 exports.delete = (req, res) => {
-  const name = req.body.name;
-  const cityname = req.body.cityname;
-  const sql = "DELETE from `tester` WHERE `name`=? AND `cityname`=?";
-  db.query(sql, [name, cityname], (err, data) => {
+  const eid = req.params.eid;
+  const sql = "DELETE from `tester` WHERE `eid`=?";
+  db.query(sql, [eid], (err, data) => {
     if (err) {
       return res.json(err);
     } else {
@@ -93,10 +92,12 @@ exports.delete = (req, res) => {
 
 //Update table...
 exports.update = (req, res) => {
+  const eid = req.params.eid;
   let name = req.body.name;
   let cityname = req.body.cityname;
   const changename = req.body.changename;
   const changecityname = req.body.changecityname;
+  console.log(name, cityname, changename, changecityname);
   if (name == "") {
     name = changename;
   }
@@ -112,20 +113,16 @@ exports.update = (req, res) => {
 
   db.query(sql, [name, cityname], (err, data) => {
     if (err) {
-    } else if (data.length == 0) {
-      const sql =
-        "UPDATE `tester` SET `name` = ?,`cityname`= ? WHERE `name`=? AND `cityname`= ?";
-      db.query(
-        sql,
-        [name, cityname, changename, changecityname],
-        (err, data) => {
-          if (err) {
-            return res.json(err);
-          } else {
-            return res.json(data);
-          }
+      res.json(err);
+    } else if (data.length == 0 || data[0]["eid"] == eid) {
+      const sql = "UPDATE `tester` SET `name` = ?,`cityname`= ? WHERE eid=?";
+      db.query(sql, [name, cityname, eid], (err, data) => {
+        if (err) {
+          return res.json(err);
+        } else {
+          return res.json(data);
         }
-      );
+      });
     } else {
       res.send("same data");
     }

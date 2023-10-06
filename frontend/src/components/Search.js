@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { setDiv } from "../redux/Slice";
+import { useDispatch } from "react-redux";
 export default function Search() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [status, setstatus] = useState(false);
   const [studentList, setStudentList] = useState([]);
@@ -88,6 +91,9 @@ export default function Search() {
               to="/"
               type="submit"
               className="btn btn-success border  rounded-10 m-10"
+              onClick={() => {
+                dispatch(setDiv("Insert"));
+              }}
             >
               Home
             </Link>

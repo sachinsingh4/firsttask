@@ -3,7 +3,7 @@ module.exports = (app) => {
   const controller = require("../controller/controller");
 
   //creating router for getalldata...
-  router.post("/getAll", controller.getAll);
+  router.get("/getAll", controller.getAll);
 
   //creating router for insertion...
   router.post("/", controller.insert);
@@ -13,10 +13,10 @@ module.exports = (app) => {
 
   //creating router for update...
 
-  router.post("/update", controller.update);
+  router.put(`/update/:eid`, controller.update);
 
   //creating router for delete...
-  router.post("/delete", controller.delete);
+  router.delete(`/delete/:eid`, controller.delete);
 
   //calling main api here...
   app.use("/", router);

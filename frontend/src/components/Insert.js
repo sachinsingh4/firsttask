@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { setDiv } from "../redux/Slice";
 export default function Insert() {
+  //useDispatch initialisation here...
+  const dispatch = useDispatch();
+
   const [value, setvalue] = useState({
     name: "",
     cityname: "",
@@ -66,6 +71,9 @@ export default function Insert() {
               to="/getAll"
               type="submit"
               className="btn btn-default border w-100 rounded-10"
+              onClick={() => {
+                dispatch(setDiv("List"));
+              }}
             >
               Get All Record
             </Link>
@@ -73,6 +81,9 @@ export default function Insert() {
               to="/search"
               type="submit"
               className="btn btn-default border w-100 rounded-10"
+              onClick={() => {
+                dispatch(setDiv("Search Data"));
+              }}
             >
               Search Record
             </Link>

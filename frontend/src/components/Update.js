@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-export default function Update({ nameValue, citynameValue }) {
+import { setDiv } from "../redux/Slice";
+import { useDispatch } from "react-redux";
+export default function Update({ eid, nameValue, citynameValue }) {
+  const dispatch = useDispatch();
   const [value, setvalue] = useState({
     name: "",
     cityname: "",
@@ -29,13 +32,16 @@ export default function Update({ nameValue, citynameValue }) {
 
   //Call After clicking button
   const handleSubmit = (event) => {
+    console.log(value);
     event.preventDefault();
     axios
-      .post("http://localhost:8081/update", value)
+      .put(`http://localhost:8081/update/${eid}`, value)
       .then((res) => {
         if (res.data === "same data") {
           alert("same data already present in the database");
         } else {
+          alert("successfully updated");
+          dispatch(setDiv("Insert"));
           navigate("/");
         }
       })
@@ -79,6 +85,9 @@ export default function Update({ nameValue, citynameValue }) {
             to="/"
             type="submit"
             className="btn btn-default border  rounded-10 "
+            onClick={() => {
+              dispatch(setDiv("Insert"));
+            }}
           >
             Home
           </Link>
