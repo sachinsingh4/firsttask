@@ -97,7 +97,6 @@ exports.update = (req, res) => {
   let cityname = req.body.cityname;
   const changename = req.body.changename;
   const changecityname = req.body.changecityname;
-  console.log(name, cityname, changename, changecityname);
   if (name == "") {
     name = changename;
   }

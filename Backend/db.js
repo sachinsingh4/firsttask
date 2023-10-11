@@ -14,5 +14,10 @@ const db = mysql.createConnection({
     idle: dbConfig.pool.idle,
   },
 });
+db.connect((err, res) => {
+  if (err) {
+    console.log(err);
+  } else console.log("connected with DB");
+});
 
 module.exports = db;

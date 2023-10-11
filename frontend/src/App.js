@@ -12,11 +12,11 @@ function App() {
   const value = useSelector((state) => state.value.value);
   return (
     <BrowserRouter>
-      <div className="d-flex flex-column">
+      <div className="">
         <div className="d-grid ">
           <Navbar />
         </div>
-        <div className="position-absolute m-5 p-3 bg-white">{value}</div>
+        <div className="position-absolute m-3 p-3 bg-white">{value}</div>
         <div className="d-grid m-8 min-vh-10">
           <Routes>
             {/* I create three route here for 3 operation insertion seach and getall data from database */}
