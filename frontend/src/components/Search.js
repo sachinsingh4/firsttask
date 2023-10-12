@@ -22,7 +22,7 @@ export default function Search() {
     event.preventDefault();
     setstatus(!status);
     axios
-      .post("http://localhost:8081/search", value)
+      .post("http://localhost:8081/api/employee/search", value)
       .then((res) => {
         if (res.data.length === 0) {
           alert("No data is found with this Search");

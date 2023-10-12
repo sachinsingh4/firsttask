@@ -14,7 +14,7 @@ export default function Search() {
   const handleSubmit = (event) => {
     event.preventDefault();
     axios
-      .delete("http://localhost:8081/delete", value)
+      .delete("http://localhost:8081/api/employee/delete", value)
       .then((res) => alert("successfully deleted"))
       .catch((err) => console.log(err));
   };

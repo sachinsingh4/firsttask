@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 export default function GetAllDetails() {
   const dispatch = useDispatch();
   const [status, setstatus] = useState(false);
+
   //use usestate here to store employee current state in employeelist and update using setemployeelist..
   const [employeelist, setemployeelist] = useState([]);
   const [eid, setEid] = useState();
@@ -36,7 +37,7 @@ export default function GetAllDetails() {
       return;
     }
     axios
-      .delete(`http://localhost:8081/delete/${eid}`)
+      .delete(`http://localhost:8081/api/employee/delete/${eid}`)
       .then((res) => {
         setemployeelist(res.data);
       })
@@ -50,8 +51,9 @@ export default function GetAllDetails() {
 
     //use axios to connect frontend with backend.
     axios
-      .get("http://localhost:8081/getAll")
+      .get("http://localhost:8081/api/employee/getAll")
       .then((res) => {
+        console.log(res.data);
         setemployeelist(res.data);
       })
       .catch((err) => console.log(err));
@@ -73,6 +75,7 @@ export default function GetAllDetails() {
             <tr className="hello">
               <th className="hello">Name of Employee</th>
               <th className="hello">City of Employee</th>
+              <th className="hello">Department</th>
               <th className="hello">Action</th>
             </tr>
 
@@ -81,6 +84,7 @@ export default function GetAllDetails() {
                 <tr key={val.eid}>
                   <td className="hello">{val.name}</td>
                   <td className="hello">{val.cityname}</td>
+                  <td className="hello">{val.dName}</td>
                   <td>
                     <button onClick={() => handledelete(val.eid)}>
                       delete

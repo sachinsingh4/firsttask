@@ -7,8 +7,8 @@ app.use(cors());
 app.use(express.json());
 
 //calling route folder here
-require("./routes/route")(app);
-
+require("./routes/employee.route")(app);
+require("./routes/department.route")(app);
 //Server...Backend is running on the port 8081.
 app.listen(8081, () => {
   console.log("App is runnning");

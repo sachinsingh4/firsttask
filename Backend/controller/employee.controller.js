@@ -2,7 +2,8 @@
 
 const db = require("../db");
 exports.getAll = (req, res) => {
-  const sql = "select * from `tester`";
+  const sql =
+    "select * from `tester` INNER JOIN `department` ON tester.d_id=department.d_id";
   db.query(sql, [], (err, data) => {
     if (err) {
       return res.json(err);
@@ -16,6 +17,7 @@ exports.getAll = (req, res) => {
 /*{
       employename:
       cityname:
+      dept: in string from convert it into string format...
 }*/
 exports.insert = (req, res) => {
   const name = req.body.name;
@@ -26,8 +28,12 @@ exports.insert = (req, res) => {
     if (err) {
       return res.json("Error");
     } else if (data == "") {
-      const sql1 = "INSERT INTO `tester`(`name`,`cityname`) VALUES(?)";
-      const values = [req.body.name, req.body.cityname];
+      const sql1 = "INSERT INTO `tester`(`name`,`cityname`,`d_id`) VALUES(?)";
+      const values = [
+        req.body.name,
+        req.body.cityname,
+        parseInt(req.body.dept),
+      ];
       db.query(sql1, [values], (err, data) => {
         if (err) {
           return res.json(err);
@@ -78,11 +84,13 @@ exports.delete = (req, res) => {
     if (err) {
       return res.json(err);
     } else {
-      const sql = "select * from `tester`";
+      const sql =
+        "select * from `tester` INNER JOIN `department` ON tester.d_id=department.d_id";
       db.query(sql, [], (err, data) => {
         if (err) {
           return res.json(err);
         } else {
+          console.log(data);
           return res.json(data);
         }
       });

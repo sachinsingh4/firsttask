@@ -1,6 +1,6 @@
 module.exports = (app) => {
   const router = require("express").Router();
-  const controller = require("../controller/controller");
+  const controller = require("../controller/employee.controller");
 
   //creating router for getalldata...
   router.get("/getAll", controller.getAll);
@@ -19,5 +19,5 @@ module.exports = (app) => {
   router.delete(`/delete/:eid`, controller.delete);
 
   //calling main api here...
-  app.use("/", router);
+  app.use("/api/employee", router);
 };

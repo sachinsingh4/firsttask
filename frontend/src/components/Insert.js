@@ -1,16 +1,33 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setDiv } from "../redux/Slice";
+import { setDept } from "../redux/dept.Slice";
 export default function Insert() {
   //useDispatch initialisation here...
   const dispatch = useDispatch();
 
+  const DeptName = useSelector((state) => state.deptValue.deptValue);
   const [value, setvalue] = useState({
     name: "",
     cityname: "",
+    dept: "1",
   });
+
+  //UseEffect to call the department table to gettingg the table...
+  useEffect(() => {
+    axios
+      .get("http://localhost:8081/api/department/getAll")
+      .then((res) => {
+        if (res) {
+          dispatch(setDept(res.data));
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   //handleinput method is use to handle event and store data what we are typing on insertion form.
   const handleInput = (event) => {
@@ -26,7 +43,7 @@ export default function Insert() {
 
     //axios use to connect frontend with backend and passing also value(it contains data of form) to backend.
     axios
-      .post("http://localhost:8081/", value)
+      .post("http://localhost:8081/api/employee", value)
       .then((res) => {
         if (res.data === "Error") {
           alert("Already Same data is present in the table");
@@ -63,6 +80,16 @@ export default function Insert() {
               onChange={handleInput}
             ></input>
           </div>
+          <div className="mb-3 d-flex gap-3">
+            <label htmlFor="employeeName">Employee department</label>
+            <select name="dept" onChange={handleInput}>
+              {DeptName.map((data) => (
+                <option value={data.d_id} key={data.d_id}>
+                  {data.dName}
+                </option>
+              ))}
+            </select>
+          </div>
           <div className="d-flex gap-5">
             <button type="submit" className="btn btn-success w-100">
               Insert Data
@@ -87,20 +114,6 @@ export default function Insert() {
             >
               Search Record
             </Link>
-            {/* <Link
-              to="/delete"
-              type="submit"
-              className="btn btn-default border w-100 rounded-10"
-            >
-              Delete Record
-            </Link>
-            <Link
-              to="/update"
-              type="submit"
-              className="btn btn-default border w-100 rounded-10"
-            >
-              update Record
-            </Link> */}
           </div>
         </form>
       </div>
