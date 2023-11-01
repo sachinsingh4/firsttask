@@ -2,15 +2,18 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { setDiv } from "../redux/Slice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 export default function Search() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+
+  //using redux... use deptName
+  const DeptName = useSelector((state) => state.deptValue.deptValue);
   const [status, setstatus] = useState(false);
   const [studentList, setStudentList] = useState([]);
   const [value, setvalue] = useState({
     name: "",
     cityname: "",
+    dept: 0,
   });
   const handleInput = (event) => {
     setvalue((prev) => ({
@@ -27,7 +30,17 @@ export default function Search() {
         if (res.data.length === 0) {
           alert("No data is found with this Search");
         } else {
-          setStudentList(res.data);
+          if (value.dept === 0) {
+            setStudentList(res.data);
+          } else {
+            const data = res.data;
+            const result = data.filter(filterDept);
+            console.log("valuedept", value.dept);
+            function filterDept(data) {
+              return data.d_id === parseInt(value.dept);
+            }
+            setStudentList(result);
+          }
         }
       })
       .catch((err) => console.log(err));
@@ -61,6 +74,16 @@ export default function Search() {
                 onChange={handleInput}
               ></input>
             </div>
+            <div className="mb-3 d-flex gap-3">
+              <label htmlFor="employeeName">Employee department</label>
+              <select name="dept" onChange={handleInput}>
+                {DeptName.map((data) => (
+                  <option value={data.d_id} key={data.d_id}>
+                    {data.dName}
+                  </option>
+                ))}
+              </select>
+            </div>
             <button
               className="btn btn-success w-100"
               onSubmit={() => handleSubmit()}
@@ -75,6 +98,7 @@ export default function Search() {
             <tr className="hello">
               <th className="hello">Name of Employee</th>
               <th className="hello">City of Employee</th>
+              <th className="hello">department</th>
             </tr>
 
             {studentList.map((val, key) => {
@@ -82,6 +106,7 @@ export default function Search() {
                 <tr className="hello">
                   <td className="hello">{val.name}</td>
                   <td className="hello">{val.cityname}</td>
+                  <td className="hello">{val.dName}</td>
                 </tr>
               );
             })}

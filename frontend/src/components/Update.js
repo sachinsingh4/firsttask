@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { setDiv } from "../redux/Slice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 export default function Update({ eid, nameValue, citynameValue }) {
   const dispatch = useDispatch();
+  const DeptName = useSelector((state) => state.deptValue.deptValue);
   const [value, setvalue] = useState({
     name: "",
     cityname: "",
@@ -15,6 +16,7 @@ export default function Update({ eid, nameValue, citynameValue }) {
     setvalue({
       name: nameValue,
       cityname: citynameValue,
+      dept: 0,
     });
   }, [nameValue, citynameValue]);
 
@@ -35,7 +37,7 @@ export default function Update({ eid, nameValue, citynameValue }) {
     console.log(value);
     event.preventDefault();
     axios
-      .put(`http://localhost:8081/update/${eid}`, value)
+      .put(`http://localhost:8081/api/employee/update/${eid}`, value)
       .then((res) => {
         if (res.data === "same data") {
           alert("same data already present in the database");
@@ -77,6 +79,16 @@ export default function Update({ eid, nameValue, citynameValue }) {
               value={value.cityname}
               onChange={handleInput}
             ></input>
+          </div>
+          <div className="mb-3 d-flex gap-3">
+            <label htmlFor="employeeName">Employee department</label>
+            <select name="dept" onChange={handleInput}>
+              {DeptName.map((data) => (
+                <option value={data.d_id} key={data.d_id}>
+                  {data.dName}
+                </option>
+              ))}
+            </select>
           </div>
           <button type="submit" className="btn btn-success border  rounded-10">
             Update Data

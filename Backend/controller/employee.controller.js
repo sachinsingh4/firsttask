@@ -55,15 +55,15 @@ exports.insert = (req, res) => {
 exports.search = (req, res) => {
   const name = req.body.name;
   const cityname = req.body.cityname;
-  //const sql = "SELECT * FROM `tester` WHERE `name`= ? AND `cityname`= ?";
-
+  const d_id = req.body.dept;
   const sql =
-    "SELECT * FROM `tester` WHERE `name` LIKE '%" +
+    "select * from `tester` INNER JOIN `department` ON tester.d_id=department.d_id WHERE `name` LIKE '%" +
     name +
     "%' AND `cityname` LIKE '%" +
     cityname +
     "%'";
-  db.query(sql, [name, cityname], (err, data) => {
+  db.query(sql, [name, cityname, d_id], (err, data) => {
+    console.log("data", data);
     if (err) {
       return res.json("Error");
     }
@@ -103,6 +103,7 @@ exports.update = (req, res) => {
   const eid = req.params.eid;
   let name = req.body.name;
   let cityname = req.body.cityname;
+  let d_id = req.body.dept;
   const changename = req.body.changename;
   const changecityname = req.body.changecityname;
   if (name == "") {
@@ -122,11 +123,12 @@ exports.update = (req, res) => {
     if (err) {
       res.json(err);
     } else if (data.length == 0 || data[0]["eid"] == eid) {
-      const sql = "UPDATE `tester` SET `name` = ?,`cityname`= ? WHERE eid=?";
-      db.query(sql, [name, cityname, eid], (err, data) => {
+      const sql = `UPDATE tester SET name = ?,cityname= ?,d_id=? WHERE eid=?`;
+      db.query(sql, [name, cityname, d_id, eid], (err, data) => {
         if (err) {
           return res.json(err);
         } else {
+          console.log("data", data);
           return res.json(data);
         }
       });
